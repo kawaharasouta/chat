@@ -8,7 +8,42 @@
 #include <unistd.h>
 #include <sys/time.h>
 
+#include<sock_connect.h>
+
 #define PORT 5000
+
+/*int* sock_connect(char *hostname, int port){
+	int fd;
+	struct sockaddr_in addr;
+	struct hostent *hp;
+	//ソケット生成
+	if((fd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
+		fprintf(stderr, "Cannot create socket\n");
+		exit(1);
+	}
+	
+	//構造体のクリア
+	bzero((char *)&addr, sizeof(addr));
+	//memset((char *)&server_addr, 0, sizeof(server_addr));
+	
+	//各種設定
+	if((hp = gethostbyname(hostname)) == NULL){
+		perror("No such host");
+		exit(1);
+	}
+	bcopy(hp->h_addr, &addr.sin_addr, hp->h_length);
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(port);
+	
+	//サーバに接続
+	if(connect(fd, (struct sockaddr *)&addr, sizeof(addr)) < 0){
+		fprintf(stderr, "Cannot connect\n");
+		exit(1);
+	}
+	printf("Connected.\n");
+	
+	return fd;
+}*/
 
 int main(int argc, char *argv[]){
 	int fd, len, n, ret;
@@ -23,7 +58,7 @@ int main(int argc, char *argv[]){
 	}
 	
 	//ソケット生成
-	if((fd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
+/*	if((fd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
 		fprintf(stderr, "Cannot create socket\n");
 		exit(1);
 	}
@@ -46,7 +81,8 @@ int main(int argc, char *argv[]){
 		fprintf(stderr, "Cannot connect\n");
 		exit(1);
 	}
-	printf("Connected.\n");
+	printf("Connected.\n");*/
+	fd = sock_connect(argv[1], (int)PORT);
 	
 	//ニックネーム設定 第2引数
 	bzero(buf, sizeof(buf));
